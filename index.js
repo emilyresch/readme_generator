@@ -20,9 +20,12 @@
 //require everything 
 const inquirer = require("inquirer");
 const fs = require("fs");
+const util = require("util");
+
+const writeFileAsync = util.promisify(fs.writeFile);
 //prompt user with questions and their input is stored in an object
-inquirer
-    .prompt([
+function promptUser() {
+    return inquirer.prompt([
         {
             type: "input",
             message: "What is the title of your app?",
@@ -68,48 +71,51 @@ inquirer
             message: "What is your GitHub username?",
             name: "github"
         }
-    ]).then(function(answers){
-        console.log(answers);
-        // console.log(answers.tests);
-        // writeToFile();
-        // console.log(JSON.stringify(answers));
-    })
+    ]);
+}
 
 //badges need to be implemented so that they display at the top of the file
-// const readmeFile = `
-// Inline-style: 
-// ![badge](this is where url for badge will go "badge")
-// # ${answers.title}
-// ## Description:
-// ${answers.description}
-// ### Installing
-// ${answers.installation}
-// ### Contributors
-// ${answers.contributors}
-// ### Running tests
-// ${answers.tests}
-// ### Final Questions
-// ${answers.questions}
-// ## License
-// This project is licensed under the ${answers.license} license.
-// ## Authors
-// ${answers.github}
-// `
+function generateReadmeFile(answers) {
+    return `
+Inline-style: 
+![badge](this is where url for badge will go "badge")
+# ${answers.title}
+
+## Description:
+${answers.description}
+
+### Table of Contents
+
+### Installing
+${answers.installation}
+
+### Contributors
+${answers.contributors}
+
+### Running tests
+${answers.tests}
+
+### Final Questions
+${answers.questions}
+
+## License
+This project is licensed under the ${answers.license} license.
+
+## Authors
+${answers.github}
+`
+};
 // `*** ${title} `
  
-//need to make a function that writes our file using the data from the prompts
-function writeToFile(fileName, data) {
-    // fs.writeFile("readme.md", readmeFile, function(err){
-    //     if (err){
-    //         console.log(err);
-    //     }else{
-    //         console.log("successfully wrote file");
-    //     }
-    // })
-}
 
-function init() {
 
-}
+promptUser()
+.then(function(answers) {
+    const readme = generateReadmeFile(answers);
+    return writeFileAsync("readme.md", readme);
+}).then(function(){
+    console.log("Successfully wrote Readme file!");
+}).catch(function(err){
+    console.log(err);
+})
 
-init();
