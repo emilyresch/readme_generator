@@ -11,5 +11,5 @@ When the prompt function is called, the app waits to recieve all of the users an
 There is also a function to grab the users Github avatar using an axios call and the gihtub api response. 
 
 ### Used
-Badges - 
-Markdown - 
+Badges - sheilds.io
+Markdown - https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet#images
