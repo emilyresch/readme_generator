@@ -21,12 +21,13 @@
 const inquirer = require("inquirer");
 const fs = require("fs");
 const util = require("util");
+const axios = require("axios");
 
 const writeFileAsync = util.promisify(fs.writeFile);
+const appendFileAsync = util.promisify(fs.appendFile);
 //prompt user with questions and their input is stored in an object
 function promptUser() {
-    return inquirer.prompt([
-        {
+    return inquirer.prompt([{
             type: "input",
             message: "What is the title of your app?",
             name: "title"
@@ -74,15 +75,31 @@ function promptUser() {
     ]);
 }
 
+function generateAvatar (github) {
+    var queryURL = `https://api.github.com/users/${github}`
+    axios
+        .get(queryURL)
+        .then(function (response) {
+            console.log(response.avatar_url);
+            return response.avatar_url;
+
+        })
+}
+
+
+
 //badges need to be implemented so that they display at the top of the file
 function generateReadmeFile(answers) {
     return `
-Inline-style: 
-![badge](this is where url for badge will go "badge")
+![user's avatar alt][avatar]
+[avatar]: 
+
 # ${answers.title}
 
 ## Description:
 ${answers.description}
+
+[![GitHub contributors](https://img.shields.io/github/contributors/Naereen/StrapDown.js.svg)](https://GitHub.com/Naereen/StrapDown.js/graphs/contributors/)
 
 ### Table of Contents
 - [Installing](###Installing)
@@ -111,17 +128,13 @@ This project is licensed under the ${answers.license} license.
 ${answers.github}
 `
 };
-// `*** ${title} `
- 
-
 
 promptUser()
-.then(function(answers) {
-    const readme = generateReadmeFile(answers);
-    return writeFileAsync("readme.md", readme);
-}).then(function(){
-    console.log("Successfully wrote Readme file!");
-}).catch(function(err){
-    console.log(err);
-})
-
+    .then(function (answers) {
+        const readme = generateReadmeFile(answers);
+        return writeFileAsync("myreadme.md", readme);   
+    }).then(function () {
+        console.log("Successfully wrote Readme file!");
+    }).catch(function (err) {
+        console.log(err);
+    })
