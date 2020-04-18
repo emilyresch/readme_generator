@@ -85,6 +85,12 @@ Inline-style:
 ${answers.description}
 
 ### Table of Contents
+- [Installing](###Installing)
+- [Contributors](###Contributors)
+- [Tests](###Running-Tests)
+- [Questions](###Final-Questions)
+- [License](##License)
+- [Authors](##Authors)
 
 ### Installing
 ${answers.installation}
