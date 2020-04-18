@@ -21,10 +21,9 @@
 const inquirer = require("inquirer");
 const fs = require("fs");
 const util = require("util");
-const axios = require("axios");
+
 
 const writeFileAsync = util.promisify(fs.writeFile);
-const appendFileAsync = util.promisify(fs.appendFile);
 //prompt user with questions and their input is stored in an object
 function promptUser() {
     return inquirer.prompt([{
@@ -53,9 +52,14 @@ function promptUser() {
             name: "license"
         },
         {
-            type: "input",
+            type: "number",
+            message: "How many contributed to this app (number)?",
+            name: "contribnumber"
+        },
+        {
+            type: "type",
             message: "List all contributors to the app.",
-            name: "contrib"
+            name: "authors"
         },
         {
             type: "input",
@@ -64,7 +68,7 @@ function promptUser() {
         },
         {
             type: "input",
-            message: "Would you like to include questions?",
+            message: "Include any questions about the app.",
             name: "questions"
         },
         {
@@ -75,64 +79,58 @@ function promptUser() {
     ]);
 }
 
-function generateAvatar (github) {
-    var queryURL = `https://api.github.com/users/${github}`
-    axios
-        .get(queryURL)
-        .then(function (response) {
-            console.log(response.avatar_url);
-            return response.avatar_url;
-
-        })
-}
-
 
 
 //badges need to be implemented so that they display at the top of the file
 function generateReadmeFile(answers) {
+    var userLicense = answers.license;
     return `
-![user's avatar alt][avatar]
-[avatar]: 
-
-# ${answers.title}
+# __${answers.title}__ by ${answers.github}
 
 ## Description:
 ${answers.description}
 
-[![GitHub contributors](https://img.shields.io/github/contributors/Naereen/StrapDown.js.svg)](https://GitHub.com/Naereen/StrapDown.js/graphs/contributors/)
+### Authors
+${answers.authors}
+
+_________________________
+
+
+![license badge](https://img.shields.io/badge/license-${userLicense}-brightgreen) ![license badge](https://img.shields.io/badge/contributors-${answers.contribnumber}-red)
+
+_________________________
 
 ### Table of Contents
 - [Installing](###Installing)
-- [Contributors](###Contributors)
-- [Tests](###Running-Tests)
-- [Questions](###Final-Questions)
+- [Tests](###Tests)
+- [Questions](###Questions)
 - [License](##License)
-- [Authors](##Authors)
+
+_________________________
 
 ### Installing
 ${answers.installation}
 
-### Contributors
-${answers.contributors}
-
-### Running tests
+### Tests
 ${answers.tests}
 
-### Final Questions
+### Questions
 ${answers.questions}
 
 ## License
 This project is licensed under the ${answers.license} license.
 
-## Authors
-${answers.github}
+_____________________
+
+![profile pic](http://avatars0.githubusercontent.com/${answers.github})
 `
+
 };
 
 promptUser()
     .then(function (answers) {
         const readme = generateReadmeFile(answers);
-        return writeFileAsync("myreadme.md", readme);   
+        return writeFileAsync("myreadme.md", readme);
     }).then(function () {
         console.log("Successfully wrote Readme file!");
     }).catch(function (err) {
