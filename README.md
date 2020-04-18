@@ -8,7 +8,8 @@ This app uses the inquirer npm to create prompts. The answers are stored in an o
 Util and fs are also required in order to promisify a writeFile that will make the function promise-based/asynchronous. 
 There is also a function that generates the readme file. It returns a template literal of the markdown file. 
 When the prompt function is called, the app waits to recieve all of the users answers before writing them into the readme file with the writeFileAsync function. 
-There is also a function to grab the users Github avatar using an axios call and the gihtub api response. 
+I grabbed the user's avatar using the beginning of the avatar url and using template literal to insert the user's Github username into the url.
+I used sheilds.io to build a url for two badges - license and number of contributors.
 
 ### Used
 Badges - sheilds.io
