@@ -38,7 +38,7 @@ function promptUser() {
         },
         {
             type: "input",
-            message: "What are the steps to installing your app?",
+            message: "What is required to install your app?",
             name: "installation"
         },
         {
@@ -47,29 +47,39 @@ function promptUser() {
             name: "usage"
         },
         {
-            type: "input", //list?
-            message: "What is the app's license?",
-            name: "license"
-        },
-        {
             type: "number",
-            message: "How many contributed to this app (number)?",
-            name: "contribnumber"
+            message: "What is the year of this app's creation?",
+            name: "year"
         },
         {
-            type: "type",
+            type: "input",
             message: "List all contributors to the app.",
             name: "authors"
         },
         {
             type: "input",
-            message: "What tests were run on this app?",
+            message: "What are the contributors' github usernames?",
+            name: "contribHubs"
+        },
+        {
+            type: "input",
+            message: "Has this app been tested? Explain the testing procedures.",
             name: "tests"
         },
         {
             type: "input",
-            message: "Include any questions about the app.",
+            message: "Include any final questions about the app.",
             name: "questions"
+        },
+        {
+            type: "input",
+            message: "Enter the deployed Heroku link",
+            name: "heroku"
+        },
+        {
+            type: "input",
+            message: "What is the name of your Github repository? (case sensitive)",
+            name: "repo"
         },
         {
             type: "input",
@@ -83,33 +93,38 @@ function promptUser() {
 
 //badges need to be implemented so that they display at the top of the file
 function generateReadmeFile(answers) {
-    var userLicense = answers.license;
     return `
 # __${answers.title}__ by ${answers.github}
+
+
+_________________________
+
+![Repo Size badge](https://img.shields.io/github/repo-size/${answers.github}/${answers.repo})
+![File Size badge](https://img.shields.io/github/size/${answers.github}/${answers.repo})
+![GitHub License](https://img.shields.io/github/license/${answers.github}/${answers.repo})
+
+_________________________
 
 ## Description:
 ${answers.description}
 
-### Authors
-${answers.authors}
-
-_________________________
-
-
-![license badge](https://img.shields.io/badge/license-${userLicense}-brightgreen) ![license badge](https://img.shields.io/badge/contributors-${answers.contribnumber}-red)
-
 _________________________
 
 ### Table of Contents
-- [Installing](###Installing)
-- [Tests](###Tests)
-- [Questions](###Questions)
-- [License](##License)
+- [Installing](#installing)
+- [Contributors](#contributors)
+- [Tests](#tests)
+- [Questions](#questions)
+- [License](#license)
+- [Heroku](#heroku)
 
 _________________________
 
 ### Installing
 ${answers.installation}
+
+## Contributors
+${answers.authors} - ${answers.contribHubs}
 
 ### Tests
 ${answers.tests}
@@ -118,11 +133,28 @@ ${answers.tests}
 ${answers.questions}
 
 ## License
-This project is licensed under the ${answers.license} license.
+${answers.title} (C) ${answers.year}, ${answers.authors}
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+##Heroku
+<${answers.heroku}>
+
 
 _____________________
 
-![profile pic](http://avatars0.githubusercontent.com/${answers.github})
+![Github profile pic](https://avatars2.githubusercontent.com/${answers.github})
+
 `
 
 };
