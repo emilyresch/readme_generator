@@ -4,9 +4,9 @@
 
 _________________________
 
-![Repo Size badge](https://img.shields.io/github/repo-size/emilyresch/resch_homework_8)
-![File Size badge](https://img.shields.io/github/size/emilyresch/resch_homework_8)
-![GitHub License](https://img.shields.io/github/license/emilyresch/resch_homework_8)
+![Repo Size badge](https://img.shields.io/github/repo-size/emilyresch/resch_READMEgenerator_8)
+![File Size badge](https://img.shields.io/github/size/emilyresch/resch_READMEgenerator_8)
+![GitHub License](https://img.shields.io/github/license/emilyresch/resch_READMEgenerator_8)
 
 _________________________
 
@@ -52,8 +52,6 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-##Heroku
-<None at the moment.>
 
 
 _____________________
