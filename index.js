@@ -108,6 +108,8 @@ _________________________
 ## Description:
 ${answers.description}
 
+## Use
+${answers.usage}
 _________________________
 
 ### Table of Contents
